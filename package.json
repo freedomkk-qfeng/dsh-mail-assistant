@@ -141,7 +141,7 @@
     "dts-resolver": "^3.0.0",
     "empathic": "^2.0.1",
     "encoding-japanese": "^2.2.0",
-    "entities": "^4.5.0",
+    "entities": "^8.0.0",
     "fdir": "^6.5.0",
     "get-tsconfig": "^5.0.0-beta.5",
     "he": "^1.2.0",
