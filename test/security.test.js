@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
+import { join, resolve } from 'node:path'
 import test from 'node:test'
 import { internals as mailInternals } from '../src/host/mail-client.js'
 import { decideMailPermission } from '../src/host/permission.js'
@@ -40,8 +41,9 @@ test('mail failures become actionable without exposing server responses', () => 
 })
 
 test('workspace containment rejects siblings and accepts descendants', () => {
-  assert.equal(workspaceInternals.within('C:\\work\\project', 'C:\\work\\project\\file.txt'), true)
-  assert.equal(workspaceInternals.within('C:\\work\\project', 'C:\\work\\project-evil\\file.txt'), false)
+  const workspace = resolve('work', 'project')
+  assert.equal(workspaceInternals.within(workspace, join(workspace, 'file.txt')), true)
+  assert.equal(workspaceInternals.within(workspace, resolve(workspace, '..', 'project-evil', 'file.txt')), false)
 })
 
 test('download implementation revalidates real paths before a native write', async () => {
