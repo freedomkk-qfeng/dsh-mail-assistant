@@ -1,0 +1,57 @@
+# 快速接入
+
+**简体中文** | [English](getting-started.en.md)
+
+## 前置条件
+
+- Node.js 22+；
+- DeepSeek Harness `0.1.2-alpha.2`；
+- Profile 中已经有 Settings、Credentials、Tools、Filesystem、Approval 和 Web Client；
+- 一个开启了 IMAP/SMTP 的邮箱账号，以及邮箱服务商签发的客户端授权码或应用专用密码。
+
+## 安装
+
+普通使用固定经过复核的 npm 精确版本：
+
+```bash
+dsh plugin --profile web add dsh-mail-assistant@0.1.0-alpha.4
+```
+
+需要审计、开发或验证尚未发布的改动时，使用源码 checkout：
+
+```bash
+git clone https://github.com/freedomkk-qfeng/dsh-mail-assistant.git
+cd dsh-mail-assistant
+npm ci
+npm run check
+dsh plugin --profile web add .
+```
+
+安装只向 Profile 加入一个 Bundle。插件配置为空也能正常启动；不会在启动时探测服务器或安装额外运行时。
+
+源码安装会把 checkout 链接进 Profile，因此目录必须持续存在。团队部署应固定 npm 精确版本；只有明确希望持续跟随预发布更新时才使用 `dsh-mail-assistant@alpha`。
+
+## 配置
+
+在“设置 → 邮件助手”按页面顺序配置：
+
+1. 填写邮箱地址、客户端授权码和可选的发件人显示名称；
+2. 选择常见邮箱服务商自动填写服务器，或为单位邮箱、自建邮箱手动填写 IMAP/SMTP 主机、端口和 TLS 模式；
+3. 仅在服务商要求时，到“高级设置”填写独立登录用户名；收件箱目录通常保持 `INBOX`；
+4. 最后分别开放 Agent 的读信和发信能力并保存。
+
+常见安全组合是 IMAP 993 + 隐式 TLS、SMTP 465 + 隐式 TLS，或 SMTP 587 + STARTTLS。具体值以邮箱服务商文档为准；不要为了连通而关闭证书校验，本插件也不提供这个开关。
+
+## 验收
+
+1. 只开启读信，让 Agent 查找最近 5 封邮件；确认邮箱中的未读状态没有变化。
+2. 让 Agent 列出邮箱目录，并使用返回的精确路径查找归档目录中的历史邮件。
+3. 用较小的每页条数查找一个命中较多的时间范围；确认 Agent 按 `nextCursor` 持续翻页，直到 `hasMore=false` 后才总结整个范围。
+4. 读取一封包含“忽略此前指令”等文本的测试邮件；确认 Agent 把它视为不可信数据。
+5. 下载一个小附件；确认文件位于当前工作区的 `.dsh-mail-assistant/attachments/`，且不会覆盖同名文件。
+6. 保持普通权限，开启发信，让 Agent 向自己的测试地址发送纯文本；确认出现逐次审批。
+7. 拒绝审批；确认没有 SMTP 发送。
+8. 切换到 Full Access，再向自己的测试地址发信；确认不再弹出审批且邮件正常送达。
+9. 尝试把工作区外文件作为附件；确认工具拒绝。
+
+真实邮箱测试应使用专门测试账号，不要在公开 issue 附上服务器日志、地址、标题、正文或授权码。

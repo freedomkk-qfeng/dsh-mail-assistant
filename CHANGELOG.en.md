@@ -1,0 +1,31 @@
+# Changelog
+
+[简体中文](CHANGELOG.md) | **English**
+
+## 0.1.0-alpha.4 - 2026-09-01
+
+- First public npm preview.
+- Replaced repository placeholders and unpublished-install text with the public repository and exact npm installation path.
+- Added GitHub CI, CodeQL, Dependabot, issue/PR templates, governance, and a public-release checklist.
+- Added dependency-license, bilingual-documentation, link, secret, and npm-package-content checks.
+- Kept IMAP/SMTP runtime libraries inside the Host bundle so consumers do not install a duplicate runtime dependency tree.
+- Revalidated real filesystem paths before local attachment writes to reject symlink or junction workspace escapes.
+
+## 0.1.0-alpha.3 - 2026-08-31
+
+- Updated the reviewed baseline to DeepSeek Harness `0.1.2-alpha.2` and `@deepseek-ai/cordis` `4.0.2`.
+- Routed `mail_send` through DSH permission presets: ordinary sessions ask per call; Full Access skips prompts only after sending is independently enabled.
+- Added read-only `mail_list_folders` for archive and provider-specific folder discovery.
+- Added stable cursor pagination, newest/oldest ordering, and `matched`, `returned`, `hasMore`, and `nextCursor` fields to `mail_find`.
+- Added bounded IMAP error normalization without exposing remote diagnostics.
+
+## 0.1.0-alpha.2 - 2026-08-30
+
+- Reworked settings around mailbox account, servers, advanced options, and Agent access.
+- Preserved the alpha.1 settings schema and credential reference.
+
+## 0.1.0-alpha.1 - 2026-08-29
+
+- Initial internal preview.
+- Added `mail_find`, `mail_read`, `mail_get_attachment`, and `mail_send`.
+- Established read-only IMAP, DSH Credential storage, independent read/send controls, workspace attachment boundaries, and untrusted-mail fencing.

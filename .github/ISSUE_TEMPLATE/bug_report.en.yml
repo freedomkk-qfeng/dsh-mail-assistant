@@ -1,0 +1,43 @@
+name: Bug report (English)
+description: Report a reproducible non-security defect
+title: "[Bug] "
+labels: [bug, triage]
+body:
+  - type: markdown
+    attributes:
+      value: Do not include app passwords, real addresses, message content, Message-IDs, private servers, or unsanitized logs. Use SECURITY.en.md for vulnerabilities.
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: dsh-mail-assistant, DSH, Node.js, and operating-system versions
+    validations: { required: true }
+  - type: dropdown
+    id: operation
+    attributes:
+      label: Area
+      options: [Settings and credentials, Folders and search, Message reading, Attachment download, Message sending, Build and installation]
+    validations: { required: true }
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Minimal steps and fully sanitized configuration class and logs
+    validations: { required: true }
+  - type: textarea
+    id: expected
+    attributes: { label: Expected behavior }
+    validations: { required: true }
+  - type: textarea
+    id: actual
+    attributes: { label: Actual behavior }
+    validations: { required: true }
+  - type: checkboxes
+    id: hygiene
+    attributes:
+      label: Data hygiene
+      options:
+        - label: I removed app passwords, real messages, addresses, servers, Message-IDs, and personal data.
+          required: true
+        - label: This is not a security vulnerability.
+          required: true

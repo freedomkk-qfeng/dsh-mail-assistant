@@ -1,0 +1,22 @@
+name: 功能建议
+description: 提议一项边界清楚的邮件助手增强
+title: "[Feature] "
+labels: [enhancement, triage]
+body:
+  - type: textarea
+    id: problem
+    attributes: { label: 问题, description: 请描述用户问题，不要只给出一个 API 方案。 }
+    validations: { required: true }
+  - type: dropdown
+    id: boundary
+    attributes:
+      label: 能力边界
+      options: [只读检索, 显式发信, 凭据与认证, DSH 集成, 文档与工具链, 新的高风险边界]
+    validations: { required: true }
+  - type: textarea
+    id: standards
+    attributes: { label: 相关邮件标准、服务商限制或 DSH 能力 }
+  - type: textarea
+    id: security
+    attributes: { label: 对凭据、邮件状态、审批、工作区和兼容性的影响 }
+    validations: { required: true }

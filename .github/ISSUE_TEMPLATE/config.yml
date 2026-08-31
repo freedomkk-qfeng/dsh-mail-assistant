@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 私密报告安全漏洞 / Private security report
+    url: https://github.com/freedomkk-qfeng/dsh-mail-assistant/security/advisories/new
+    about: 请勿在公开 Issue 中披露授权码、真实邮件、个人信息或漏洞细节。
