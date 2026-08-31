@@ -190,7 +190,7 @@
     "unconfig-core": "^7.5.0",
     "undici-types": "^8.3.0",
     "verkit": "^0.3.2",
-    "yuku-ast": "^0.8.7",
+    "yuku-ast": "^0.9.3",
     "yuku-codegen": "^0.8.7",
     "yuku-parser": "^0.8.7"
   },
