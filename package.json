@@ -112,14 +112,14 @@
   },
   "devDependencies": {
     "@types/node": "^26.0.0",
-    "@types/react": "^18.3.28",
+    "@types/react": "^19.2.18",
     "imapflow": "^1.7.0",
     "mailparser": "^3.9.15",
     "nodemailer": "^9.0.5",
-    "react": "^18.3.1",
+    "react": "^19.2.8",
     "schemastery": "^3.18.0",
     "tsdown": "0.22.14",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   },
   "directories": {
     "doc": "docs",
