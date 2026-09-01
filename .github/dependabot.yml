@@ -6,11 +6,34 @@ updates:
       interval: monthly
     open-pull-requests-limit: 2
     allow:
-      - dependency-type: direct
+      - dependency-type: development
     groups:
-      direct-dependencies:
+      mail-runtime-updates:
         patterns:
-          - '*'
+          - 'imapflow'
+          - 'mailparser'
+          - 'nodemailer'
+          - 'schemastery'
+        update-types:
+          - minor
+          - patch
+      build-tooling-updates:
+        patterns:
+          - '@types/node'
+          - '@types/react'
+          - 'react'
+          - 'tsdown'
+          - 'typescript'
+        update-types:
+          - minor
+          - patch
+    ignore:
+      - dependency-name: '*'
+        update-types:
+          - version-update:semver-major
+      - dependency-name: 'tsdown'
+        update-types:
+          - version-update:semver-minor
   - package-ecosystem: github-actions
     directory: /
     schedule:

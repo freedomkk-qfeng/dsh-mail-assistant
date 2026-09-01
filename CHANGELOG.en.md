@@ -2,6 +2,12 @@
 
 [简体中文](CHANGELOG.md) | **English**
 
+## Unreleased
+
+- Removed build-time transitive packages that were mistakenly listed as production dependencies; the Host runtime remains fully embedded in the published artifact.
+- Limited Dependabot automation to minor and patch updates for development dependencies; major updates, the DSH compatibility baseline, and `tsdown` minor updates now require manual review.
+- Added a publish-manifest assertion to the Host bundle check so external runtime dependencies cannot be reintroduced silently.
+
 ## 0.1.0-alpha.4 - 2026-09-01
 
 - First public npm preview.

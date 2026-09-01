@@ -2,6 +2,12 @@
 
 **简体中文** | [English](CHANGELOG.en.md)
 
+## 未发布
+
+- 移除误列为生产依赖的打包时传递依赖；Host 运行库继续完整内嵌在发布产物中。
+- Dependabot 只自动提交开发依赖的 minor/patch 更新；major、DSH 兼容基线和 `tsdown` minor 更新改为人工评估。
+- Host bundle 检查新增发布清单约束，防止重新引入外部运行时依赖。
+
 ## 0.1.0-alpha.4 - 2026-09-01
 
 - 首个公开 npm 预览版。
