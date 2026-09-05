@@ -1,6 +1,6 @@
 {
   "name": "@eduwork/dsh-mail",
-  "version": "0.1.0-alpha.5",
+  "version": "0.1.0",
   "description": "Standards-based IMAP/SMTP mail assistant for DeepSeek Harness with explicit read/send controls and approval-aware delivery",
   "keywords": [
     "deepseek-harness",
@@ -54,11 +54,13 @@
     "typecheck": "tsc --noEmit",
     "test": "node --test",
     "test:coverage": "node --test --experimental-test-coverage",
+    "accept:dsh-rc1": "node scripts/accept-dsh-rc1.mjs",
     "check:docs": "node scripts/check-doc-links.mjs",
     "check:secrets": "node scripts/check-secrets.mjs",
     "check:licenses": "node scripts/check-licenses.mjs",
     "check:bundle": "node scripts/check-host-bundle.mjs",
-    "check": "npm run typecheck && npm run build && npm test && npm run check:bundle && npm run check:docs && npm run check:secrets && npm run check:licenses && npm pack --dry-run",
+    "check:dsh": "node scripts/check-dsh-compat.mjs",
+    "check": "npm run typecheck && npm run build && npm test && npm run check:bundle && npm run check:dsh && npm run check:docs && npm run check:secrets && npm run check:licenses && npm pack --dry-run",
     "prepare": "npm run build"
   },
   "engines": {
@@ -79,12 +81,12 @@
   "homepage": "https://github.com/freedomkk-qfeng/dsh-mail-assistant#readme",
   "peerDependencies": {
     "@deepseek-ai/cordis": "4.0.2",
-    "@deepseek-ai/dsh-api-remotes": "0.1.2-alpha.2",
-    "@deepseek-ai/dsh-client-ui-renderer": "0.1.2-alpha.2",
-    "@deepseek-ai/dsh-client-ui-settings": "0.1.2-alpha.2",
-    "@deepseek-ai/dsh-credentials": "0.1.2-alpha.2",
-    "@deepseek-ai/dsh-permission-presets": "0.1.2-alpha.2",
-    "@deepseek-ai/dsh-tools": "0.1.2-alpha.2",
+    "@deepseek-ai/dsh-api-remotes": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-renderer": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-settings": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-credentials": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-permission-presets": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-tools": "0.1.2-rc.1",
     "react": "^18.2.0"
   },
   "peerDependenciesMeta": {
@@ -108,16 +110,19 @@
     },
     "@deepseek-ai/dsh-tools": {
       "optional": true
+    },
+    "react": {
+      "optional": true
     }
   },
   "devDependencies": {
+    "@deepseek-ai/schemastery": "3.18.2",
     "@types/node": "^26.0.0",
     "@types/react": "^18.3.28",
     "imapflow": "^1.7.0",
     "mailparser": "^3.9.15",
     "nodemailer": "^9.0.5",
     "react": "^18.3.1",
-    "schemastery": "^3.18.0",
     "tsdown": "0.22.14",
     "typescript": "^5.9.3"
   },

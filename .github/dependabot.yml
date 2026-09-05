@@ -13,7 +13,7 @@ updates:
           - 'imapflow'
           - 'mailparser'
           - 'nodemailer'
-          - 'schemastery'
+          - '@deepseek-ai/schemastery'
         update-types:
           - minor
           - patch

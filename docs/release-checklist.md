@@ -43,9 +43,9 @@
 
 ## 供应链与发布
 
-- [ ] Windows 与 Linux 使用 Node 22 完成干净 `npm ci` 和 `npm run check`。
+- [ ] Windows 与 Linux 使用 Node 22/24 完成干净 `npm ci` 和 `npm run check`。
 - [ ] `npm audit`、CodeQL、直接/间接许可证和安装脚本已人工审查。
 - [ ] GitHub Actions 固定到不可变 commit，Dependabot 与分支保护有效。
 - [ ] `npm pack --dry-run` 和解压后的 tarball 只包含预期文件；Host bundle 没有外部 IMAP/SMTP 裸导入。
 - [ ] tag、发布说明、tarball checksum、弃用和回滚方案已准备。
-- [ ] 稳定发布使用 npm Trusted Publishing/OIDC 和 provenance，不使用长期 Token。
+- [ ] npm 包已绑定本仓库的 `.github/workflows/release.yml` Trusted Publisher，Environment 填 `npm`；稳定发布使用 OIDC 和 provenance，不使用长期 Token。

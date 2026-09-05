@@ -4,6 +4,13 @@
 
 ## Unreleased
 
+## 0.1.0 - 2026-09-06
+
+- Updated the compatibility baseline to DeepSeek Harness `0.1.2-rc.1` while preserving the Host export, Profile row id, settings namespace, security scope, credential reference, and attachment-directory contracts.
+- Migrated the settings page to the DSH Client `settingsScope` API with atomic mutations, revision fencing, and read-only-state handling.
+- Aligned settings schemas with DSH on `@deepseek-ai/schemastery` `3.18.2` and removed the `legacy-peer-deps` install setting that could hide peer conflicts.
+- Expanded CI to Windows/Linux on Node.js 22/24. Added a manual release workflow that checks and packs by default, validates a stable tag for explicit publication, and uses npm Trusted Publishing/OIDC.
+
 ## 0.1.0-alpha.5 - 2026-09-05
 
 - Move the npm identity to `@eduwork/dsh-mail`; update installation/module paths and Client registration together.

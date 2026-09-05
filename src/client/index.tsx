@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState, useSyncExternalStore } from 'react'
 
-export const inject = ['slots', 'remote', 'remote.settings', 'remote.credentials']
+export const inject = ['slots', 'remote', 'remote.credentials', 'settingsScope']
 
 const NS = 'dsh-mail-assistant'
 const PASSWORD_REF = 'DSH_MAIL_ASSISTANT_PASSWORD'
@@ -19,7 +19,7 @@ const copy = zh ? {
   agentAccess: '开放给 Agent', agentAccessHint: '账号和服务器保存好后，再按需要分别开放读信或发信。', permissionNeedsSetup: '请先填写邮箱地址、授权码和相应的服务器。',
   limits: '安全上限', bodyLimit: '正文字符', messageLimit: '整封邮件字节', attachmentLimit: '附件总字节',
   usage: '保存后，在对话里让 Agent“查一下最近邮件”即可验证。插件不会在启动或保存时主动连接邮箱。',
-  error: '保存失败', reload: '重新加载', credentialPartial: '授权码已经保存，但其他配置保存失败；请修正后再次保存。',
+  error: '保存失败', reload: '重新加载', unavailable: '当前 DSH 连接未提供此设置命名空间。', readOnly: '当前连接为只读模式，无法保存设置。', credentialPartial: '授权码已经保存，但其他配置保存失败；请修正后再次保存。',
 } : {
   nav: 'Mail assistant', title: 'Mail assistant', description: 'Let the agent search mail through read-only IMAP and send through SMTP under the current DSH permission preset. This is not a mail client: it never moves, deletes, archives, or changes message state.',
   loading: 'Loading configuration…', save: 'Save', saving: 'Saving…', saved: 'Saved. New calls use the configuration immediately.',
@@ -33,7 +33,7 @@ const copy = zh ? {
   agentAccess: 'Agent access', agentAccessHint: 'After saving the account and servers, enable reading and sending independently as needed.', permissionNeedsSetup: 'Enter the email address, app password, and corresponding server first.',
   limits: 'Safety limits', bodyLimit: 'Body characters', messageLimit: 'Whole-message bytes', attachmentLimit: 'Total attachment bytes',
   usage: 'After saving, ask the agent to find recent mail. The plugin never connects to a mailbox during startup or save.',
-  error: 'Save failed', reload: 'Reload', credentialPartial: 'The app password was stored, but the remaining settings failed to save. Fix the form and save again.',
+  error: 'Save failed', reload: 'Reload', unavailable: 'This DSH connection does not expose the mail settings namespace.', readOnly: 'This connection exposes settings in read-only mode.', credentialPartial: 'The app password was stored, but the remaining settings failed to save. Fix the form and save again.',
 }
 
 const defaults = {
@@ -70,32 +70,33 @@ function detectPreset(value: typeof defaults): string {
 
 function MailSettings({ service }: any) {
   const [draft, setDraft] = useState<any>(null)
-  const [revision, setRevision] = useState(0)
   const [passwordConfigured, setPasswordConfigured] = useState(false)
+  const [credentialWritable, setCredentialWritable] = useState(false)
   const [password, setPassword] = useState('')
   const [busy, setBusy] = useState(false)
   const [notice, setNotice] = useState('')
   const [error, setError] = useState('')
   const [preset, setPreset] = useState('custom')
   const [advancedOpen, setAdvancedOpen] = useState(false)
+  const subscribe = useMemo(() => service.scope.subscribe.bind(service.scope), [service.scope])
+  const getSnapshot = useMemo<() => any>(() => service.scope.getSnapshot.bind(service.scope), [service.scope])
+  const snapshot = useSyncExternalStore(subscribe, getSnapshot, getSnapshot)
 
   const load = async () => {
     setError(''); setNotice('')
-    const [settings, credentials] = await Promise.all([
-      unwrap<any>(service.settings.describe()),
-      unwrap<any>(service.credentials.describe([PASSWORD_REF])),
-    ])
-    const namespace = settings.namespaces.find((candidate: any) => candidate.ns === NS)
-    if (!namespace) throw new Error('dsh-mail-assistant settings namespace is not available')
-    const next = { ...defaults, ...(namespace.value ?? {}) }
-    setDraft(next)
-    setPreset(detectPreset(next))
-    setRevision(namespace.revision ?? 0)
+    const credentials = await unwrap<any>(service.credentials.describe([PASSWORD_REF]))
     setPasswordConfigured(credentials[PASSWORD_REF]?.configured === true)
+    setCredentialWritable(credentials[PASSWORD_REF]?.writable === true)
     setPassword('')
   }
 
   useEffect(() => { load().catch(cause => setError(cause?.message || String(cause))) }, [])
+  useEffect(() => {
+    if (snapshot.status !== 'ready') return
+    const next = { ...defaults, ...(snapshot.value ?? {}) }
+    setDraft(next)
+    setPreset(detectPreset(next))
+  }, [snapshot])
 
   const set = (key: string, value: unknown) => setDraft((current: any) => ({ ...current, [key]: value }))
   const applyPreset = (key: string) => {
@@ -112,9 +113,8 @@ function MailSettings({ service }: any) {
         setPasswordConfigured(true)
         setPassword('')
       }
-      const namespace = await unwrap<any>(service.settings.replace(NS, draft, revision))
-      setDraft({ ...defaults, ...(namespace.value ?? draft) })
-      setRevision(namespace.revision ?? revision + 1)
+      const ops = Object.entries(draft).map(([field, value]) => ({ op: 'set', path: [field], value }))
+      await service.scope.mutate(ops, snapshot.revision)
       setNotice(copy.saved)
     } catch (cause: any) {
       setError(passwordStored ? copy.credentialPartial : (cause?.message || `${copy.error}`))
@@ -144,7 +144,7 @@ function MailSettings({ service }: any) {
     primary: { minHeight: 36, border: 0, borderRadius: 9, padding: '7px 14px', background: colors.accent, color: '#fff', cursor: 'pointer', fontWeight: 650 },
   }
 
-  if (!draft) return <div style={styles.root}><p>{error || copy.loading}</p>{error && <button style={styles.button} onClick={() => load()}>{copy.reload}</button>}</div>
+  if (!draft) return <div style={styles.root}><p>{error || (snapshot.status === 'unavailable' ? copy.unavailable : copy.loading)}</p>{error && <button style={styles.button} onClick={() => load()}>{copy.reload}</button>}</div>
   const credentialReady = passwordConfigured || password !== ''
   const readReady = draft.email.trim() !== '' && draft.imapHost.trim() !== '' && credentialReady
   const sendReady = draft.email.trim() !== '' && draft.smtpHost.trim() !== '' && credentialReady
@@ -170,7 +170,7 @@ function MailSettings({ service }: any) {
     <p style={{ margin: '7px 0 0', color: colors.secondary, fontSize: 12, lineHeight: 1.65 }}>{copy.description}</p>
     <section style={styles.card}><h3 style={{ margin: 0, fontSize: 15 }}>{copy.identity}</h3><p style={{ margin: '6px 0 13px', color: colors.secondary, fontSize: 11, lineHeight: 1.55 }}>{copy.identityHint}</p><div style={styles.grid}>
       {field(copy.email, 'email', 'email', copy.emailHint)}
-      <label style={styles.label}><span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>{copy.password}<span style={{ borderRadius: 999, padding: '2px 7px', fontSize: 10, color: passwordConfigured ? '#32724e' : '#9d2f3f', background: passwordConfigured ? '#eaf6ef' : '#f8e9ec' }}>{passwordConfigured ? copy.configured : copy.missing}</span></span><input type="password" autoComplete="new-password" value={password} placeholder={copy.credentialPlaceholder} onChange={event => setPassword(event.currentTarget.value)} style={styles.input} /><span>{copy.passwordHint}</span>{passwordConfigured && <button type="button" disabled={busy} style={{ ...styles.button, justifySelf: 'start', color: '#a82332' }} onClick={clearPassword}>{copy.clearPassword}</button>}</label>
+      <label style={styles.label}><span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>{copy.password}<span style={{ borderRadius: 999, padding: '2px 7px', fontSize: 10, color: passwordConfigured ? '#32724e' : '#9d2f3f', background: passwordConfigured ? '#eaf6ef' : '#f8e9ec' }}>{passwordConfigured ? copy.configured : copy.missing}</span></span><input type="password" autoComplete="new-password" value={password} disabled={busy || !credentialWritable} placeholder={copy.credentialPlaceholder} onChange={event => setPassword(event.currentTarget.value)} style={styles.input} /><span>{copy.passwordHint}</span>{passwordConfigured && <button type="button" disabled={busy || !credentialWritable} style={{ ...styles.button, justifySelf: 'start', color: '#a82332' }} onClick={clearPassword}>{copy.clearPassword}</button>}</label>
       {field(copy.fromName, 'fromName', 'text', copy.fromNameHint)}
     </div>
     </section>
@@ -178,13 +178,14 @@ function MailSettings({ service }: any) {
     <section style={styles.card}><button type="button" aria-expanded={advancedOpen} onClick={() => setAdvancedOpen(current => !current)} style={{ ...styles.button, width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', textAlign: 'left' }}><span><strong style={{ display: 'block', fontSize: 13 }}>{copy.advanced}</strong><span style={{ display: 'block', marginTop: 3, color: colors.secondary, fontSize: 11 }}>{copy.advancedHint}</span></span><span>{advancedOpen ? copy.collapse : '›'}</span></button>{advancedOpen && <div style={{ marginTop: 14 }}><div style={styles.grid}>{field(copy.username, 'username', 'text', copy.usernameHint)}{field(copy.inbox, 'inboxFolder', 'text', copy.inboxHint)}</div><h4 style={{ margin: '17px 0 10px', fontSize: 13 }}>{copy.limits}</h4><div style={styles.grid}>{field(copy.bodyLimit, 'maxBodyChars', 'number')}{field(copy.messageLimit, 'maxMessageBytes', 'number')}{field(copy.attachmentLimit, 'maxAttachmentBytes', 'number')}</div></div>}</section>
     <section style={styles.card}><h3 style={{ margin: 0, fontSize: 15 }}>{copy.agentAccess}</h3><p style={{ margin: '6px 0 13px', color: colors.secondary, fontSize: 11, lineHeight: 1.55 }}>{copy.agentAccessHint}</p><div style={styles.grid}>{permission('readEnabled', copy.readPermission, copy.readHint, readReady)}{permission('sendEnabled', copy.sendPermission, copy.sendHint, sendReady)}</div></section>
     <p style={{ color: colors.secondary, fontSize: 11, lineHeight: 1.55 }}>{copy.usage}</p>
+    {!snapshot.writable && <p role="status" style={{ color: colors.secondary, fontSize: 12 }}>{copy.readOnly}</p>}
     {error && <p role="alert" style={{ color: '#a82332', fontSize: 12 }}>{error}</p>}{notice && <p role="status" style={{ color: '#32724e', fontSize: 12 }}>{notice}</p>}
-    <button type="button" disabled={busy} onClick={save} style={styles.primary}>{busy ? copy.saving : copy.save}</button>
+    <button type="button" disabled={busy || !snapshot.writable} onClick={save} style={styles.primary}>{busy ? copy.saving : copy.save}</button>
   </div>
 }
 
 export function apply(ctx: any) {
-  const service = { settings: ctx.remote.settings, credentials: ctx.remote.credentials }
+  const service = { scope: ctx.settingsScope.bind({ namespace: NS }), credentials: ctx.remote.credentials }
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section', id: 'mail-assistant', order: 25, label: () => copy.nav, inject: () => ({ service }),
   }, MailSettings))

@@ -1,4 +1,4 @@
-import z from 'schemastery'
+import z from '@deepseek-ai/schemastery'
 import { DEFAULTS, SETTINGS_NAMESPACE } from './constants.js'
 
 export const MailSettingsSchema = z.object({
