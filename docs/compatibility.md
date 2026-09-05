@@ -2,6 +2,8 @@
 
 **简体中文** | [English](compatibility.en.md)
 
+`@eduwork/dsh-mail@0.1.0-alpha.5` 保留 alpha.4 的运行时和设置契约。详见[迁移说明](EDUWORK-MIGRATION.md)。
+
 ## 已验证基线
 
 - DeepSeek Harness `0.1.2-alpha.2`；

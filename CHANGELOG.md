@@ -4,6 +4,12 @@
 
 ## 未发布
 
+## 0.1.0-alpha.5 - 2026-09-05
+
+- npm 包身份改为 `@eduwork/dsh-mail`，同步安装路径、组合模块路径与客户端注册。
+- 保留 Host 导出名、插件行 id、settings namespace 和安全作用域中的 `dsh-mail-assistant`，保留 `DSH_MAIL_ASSISTANT_PASSWORD` 与 `.dsh-mail-assistant/attachments`；客户端 ModuleLoader 使用新包名。
+- 旧无作用域版本保留可安装，并提供 Profile 迁移说明。
+
 - 移除误列为生产依赖的打包时传递依赖；Host 运行库继续完整内嵌在发布产物中。
 - Dependabot 只自动提交开发依赖的 minor/patch 更新；major、DSH 兼容基线和 `tsdown` minor 更新改为人工评估。
 - Host bundle 检查新增发布清单约束，防止重新引入外部运行时依赖。

@@ -2,6 +2,8 @@
 
 [简体中文](compatibility.md) | **English**
 
+Package `@eduwork/dsh-mail@0.1.0-alpha.5` retains the alpha.4 runtime and settings contracts. See [migration](EDUWORK-MIGRATION.en.md).
+
 ## Reviewed baseline
 
 - DeepSeek Harness `0.1.2-alpha.2`;

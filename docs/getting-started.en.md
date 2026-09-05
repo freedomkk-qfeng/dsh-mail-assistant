@@ -14,7 +14,7 @@
 For normal use, pin the reviewed exact npm version:
 
 ```bash
-dsh plugin --profile web add dsh-mail-assistant@0.1.0-alpha.4
+dsh plugin --profile web add @eduwork/dsh-mail@0.1.0-alpha.5
 ```
 
 For auditing, development, or unpublished changes, use a source checkout:
@@ -27,7 +27,7 @@ npm run check
 dsh plugin --profile web add .
 ```
 
-Installation adds one Bundle to the Profile. Empty configuration is valid: the plugin performs no server probe or runtime installation during install, startup, or save. A source installation links the checkout into the Profile, so keep that directory available. Team deployments should pin an exact npm version; use `dsh-mail-assistant@alpha` only when intentionally following prereleases.
+Installation adds one Bundle to the Profile. Empty configuration is valid: the plugin performs no server probe or runtime installation during install, startup, or save. A source installation links the checkout into the Profile, so keep that directory available. Team deployments should pin an exact npm version; use `@eduwork/dsh-mail@alpha` only when intentionally following prereleases.
 
 ## Configuration
 

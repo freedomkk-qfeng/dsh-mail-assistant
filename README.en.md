@@ -1,12 +1,12 @@
 # dsh-mail-assistant
 
-> npm migration candidate: `@eduwork/dsh-mail-assistant@0.1.0-alpha.5`, not published yet. Keep using the existing unscoped release until the scoped package is available. See [migration and data compatibility](docs/EDUWORK-MIGRATION.en.md).
+> npm package: `@eduwork/dsh-mail@0.1.0-alpha.5`. The previous unscoped package remains available during migration. See [migration and data compatibility](docs/EDUWORK-MIGRATION.en.md).
 
 [简体中文](README.md) | **English**
 
 A security-focused mail assistant plugin for [DeepSeek Harness (DSH)](https://github.com/deepseek-ai/deepseek-harness). It reads through standard IMAP and sends through standard SMTP, while deliberately refusing to become another full mail client.
 
-Current version: `0.1.0-alpha.4`. This is a public alpha preview for isolated environments and dedicated test mailboxes. Complete your own security and compliance review before connecting a critical mailbox.
+Current version: `0.1.0-alpha.5`. This is a public alpha preview for isolated environments and dedicated test mailboxes. Complete your own security and compliance review before connecting a critical mailbox.
 
 ## Scope
 
@@ -42,7 +42,7 @@ Prerequisites: Node.js 22+, DSH `0.1.2-alpha.2`, and a Profile with the official
 For normal use, pin the reviewed exact npm version:
 
 ```bash
-dsh plugin --profile web add dsh-mail-assistant@0.1.0-alpha.4
+dsh plugin --profile web add @eduwork/dsh-mail@0.1.0-alpha.5
 ```
 
 Use a source checkout for auditing, development, or unpublished changes:
@@ -61,7 +61,7 @@ From the parent directory:
 dsh plugin --profile web add ./dsh-mail-assistant
 ```
 
-DSH links the checkout; it does not scan the invoking directory. Keep a source checkout in place. Use `dsh-mail-assistant@alpha` only when intentionally following prerelease updates.
+DSH links the checkout; it does not scan the invoking directory. Keep a source checkout in place. Use `@eduwork/dsh-mail@alpha` only when intentionally following prerelease updates.
 
 ## Configure and verify
 

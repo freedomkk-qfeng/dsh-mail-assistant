@@ -14,7 +14,7 @@
 普通使用固定经过复核的 npm 精确版本：
 
 ```bash
-dsh plugin --profile web add dsh-mail-assistant@0.1.0-alpha.4
+dsh plugin --profile web add @eduwork/dsh-mail@0.1.0-alpha.5
 ```
 
 需要审计、开发或验证尚未发布的改动时，使用源码 checkout：
@@ -29,7 +29,7 @@ dsh plugin --profile web add .
 
 安装只向 Profile 加入一个 Bundle。插件配置为空也能正常启动；不会在启动时探测服务器或安装额外运行时。
 
-源码安装会把 checkout 链接进 Profile，因此目录必须持续存在。团队部署应固定 npm 精确版本；只有明确希望持续跟随预发布更新时才使用 `dsh-mail-assistant@alpha`。
+源码安装会把 checkout 链接进 Profile，因此目录必须持续存在。团队部署应固定 npm 精确版本；只有明确希望持续跟随预发布更新时才使用 `@eduwork/dsh-mail@alpha`。
 
 ## 配置
 

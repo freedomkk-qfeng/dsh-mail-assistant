@@ -4,6 +4,12 @@
 
 ## Unreleased
 
+## 0.1.0-alpha.5 - 2026-09-05
+
+- Move the npm identity to `@eduwork/dsh-mail`; update installation/module paths and Client registration together.
+- Keep the Host export name, row id, settings namespace and security scope using `dsh-mail-assistant`, as well as `DSH_MAIL_ASSISTANT_PASSWORD` and `.dsh-mail-assistant/attachments`. The Client ModuleLoader uses the new package name.
+- Keep the previous unscoped version installable and document Profile migration.
+
 - Removed build-time transitive packages that were mistakenly listed as production dependencies; the Host runtime remains fully embedded in the published artifact.
 - Limited Dependabot automation to minor and patch updates for development dependencies; major updates, the DSH compatibility baseline, and `tsdown` minor updates now require manual review.
 - Added a publish-manifest assertion to the Host bundle check so external runtime dependencies cannot be reintroduced silently.
