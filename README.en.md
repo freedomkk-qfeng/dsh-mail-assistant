@@ -1,5 +1,7 @@
 # dsh-mail-assistant
 
+> npm migration candidate: `@eduwork/dsh-mail-assistant@0.1.0-alpha.5`, not published yet. Keep using the existing unscoped release until the scoped package is available. See [migration and data compatibility](docs/EDUWORK-MIGRATION.en.md).
+
 [简体中文](README.md) | **English**
 
 A security-focused mail assistant plugin for [DeepSeek Harness (DSH)](https://github.com/deepseek-ai/deepseek-harness). It reads through standard IMAP and sends through standard SMTP, while deliberately refusing to become another full mail client.

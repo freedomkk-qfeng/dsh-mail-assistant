@@ -1,5 +1,7 @@
 # dsh-mail-assistant
 
+> npm 迁移候选：`@eduwork/dsh-mail-assistant@0.1.0-alpha.5`，尚未发布。旧无作用域包仍保留；新包发布后再切换安装入口。迁移方法与数据兼容说明见 [eduwork 迁移](docs/EDUWORK-MIGRATION.md)。
+
 **简体中文** | [English](README.en.md)
 
 面向 [DeepSeek Harness（DSH）](https://github.com/deepseek-ai/deepseek-harness) 的安全型邮件助手插件。它通过标准 IMAP 读取邮件、通过标准 SMTP 发送纯文本邮件，但刻意不成为另一个邮箱客户端。

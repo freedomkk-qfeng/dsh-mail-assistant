@@ -4,5 +4,5 @@
 # DSH_MAIL_ASSISTANT_PASSWORD; never put it in this file.
 - insert:
     - id: dsh-mail-assistant
-      name: dsh-mail-assistant
+      name: '@eduwork/dsh-mail-assistant'
       config: {}
