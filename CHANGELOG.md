@@ -4,6 +4,13 @@
 
 ## 未发布
 
+## 0.1.0 - 2026-09-06
+
+- 兼容基线更新为 DeepSeek Harness `0.1.2-rc.1`，并保留 Host 导出名、Profile 行 id、settings namespace、安全作用域、凭据引用和附件目录契约。
+- 设置页迁移到 DSH Client 的 `settingsScope`，使用原子 mutation、revision fence 和只读状态。
+- 设置 Schema 改用与 DSH 基线一致的 `@deepseek-ai/schemastery` `3.18.2`，并移除会掩盖 peer 冲突的 `legacy-peer-deps` 安装配置。
+- CI 扩展为 Windows/Linux 与 Node.js 22/24；新增手动发布工作流，默认只检查和打包，显式发布时校验稳定 tag 并使用 npm Trusted Publishing/OIDC。
+
 ## 0.1.0-alpha.5 - 2026-09-05
 
 - npm 包身份改为 `@eduwork/dsh-mail`，同步安装路径、组合模块路径与客户端注册。

@@ -2,11 +2,11 @@
 
 **简体中文** | [English](compatibility.en.md)
 
-`@eduwork/dsh-mail@0.1.0-alpha.5` 保留 alpha.4 的运行时和设置契约。详见[迁移说明](EDUWORK-MIGRATION.md)。
+`@eduwork/dsh-mail@0.1.0` 保留已公开预览版的运行时和设置契约。详见[迁移说明](EDUWORK-MIGRATION.md)。
 
 ## 已验证基线
 
-- DeepSeek Harness `0.1.2-alpha.2`；
+- DeepSeek Harness `0.1.2-rc.1`（源码审查基线 commit `a66e4702047846cdaa10c66c9d3df3951f5ea70d`）；
 - Node.js 22+；
 - Web Client 动态 Bundle；
 - 本地 Host 文件系统；
@@ -24,7 +24,7 @@
 
 ## DSH 二进制写限制
 
-`ctx.fs` 在 `0.1.2-alpha.2` 提供 `readBytes`，没有 `writeBytes`。因此：
+`ctx.fs` 在 `0.1.2-rc.1` 提供 `readBytes`，没有 `writeBytes`。因此：
 
 - 发送本地附件可完整复用官方 seam；
 - 下载附件只能在 `ctx.fs.processPath()` 与 Host Node 进程指向同一文件系统时工作；插件会在创建目录后解析真实路径并再次验证工作区包含关系；
@@ -33,4 +33,4 @@
 
 ## 版本策略
 
-在 `0.x` 阶段，DSH alpha 的 Client Loader、settings slots 或 tool schema 变化可能要求插件同步更新。每次升级先运行 `npm run check`，再在隔离 Profile 中完成真实 IMAP/SMTP 验收，不应只依赖编译通过。
+在 `0.x` 阶段，DSH 预发布版的 Client Loader、settings slots 或 tool schema 变化可能要求插件同步更新。每次升级先运行 `npm run check`，再在隔离 Profile 中完成 IMAP/SMTP 验收，不应只依赖编译通过。

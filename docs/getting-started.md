@@ -5,7 +5,7 @@
 ## 前置条件
 
 - Node.js 22+；
-- DeepSeek Harness `0.1.2-alpha.2`；
+- DeepSeek Harness `0.1.2-rc.1`；
 - Profile 中已经有 Settings、Credentials、Tools、Filesystem、Approval 和 Web Client；
 - 一个开启了 IMAP/SMTP 的邮箱账号，以及邮箱服务商签发的客户端授权码或应用专用密码。
 
@@ -14,7 +14,7 @@
 普通使用固定经过复核的 npm 精确版本：
 
 ```bash
-dsh plugin --profile web add @eduwork/dsh-mail@0.1.0-alpha.5
+dsh plugin --profile web add @eduwork/dsh-mail@0.1.0
 ```
 
 需要审计、开发或验证尚未发布的改动时，使用源码 checkout：
@@ -29,7 +29,7 @@ dsh plugin --profile web add .
 
 安装只向 Profile 加入一个 Bundle。插件配置为空也能正常启动；不会在启动时探测服务器或安装额外运行时。
 
-源码安装会把 checkout 链接进 Profile，因此目录必须持续存在。团队部署应固定 npm 精确版本；只有明确希望持续跟随预发布更新时才使用 `@eduwork/dsh-mail@alpha`。
+源码安装会把 checkout 链接进 Profile，因此目录必须持续存在。团队部署应固定经复核的 npm 精确版本。
 
 ## 配置
 

@@ -43,9 +43,9 @@ A release pull request records reviewers, date, command-output links, and except
 
 ## Supply chain and publication
 
-- [ ] Clean `npm ci` and `npm run check` pass on Windows and Linux with Node 22.
+- [ ] Clean `npm ci` and `npm run check` pass on Windows and Linux with Node 22/24.
 - [ ] `npm audit`, CodeQL, direct/transitive licenses, and install scripts receive human review.
 - [ ] GitHub Actions use immutable commits; Dependabot and branch protection are active.
 - [ ] `npm pack --dry-run` and the extracted tarball contain only expected files; the Host bundle has no bare IMAP/SMTP imports.
 - [ ] Tag, release notes, tarball checksum, deprecation, and rollback are ready.
-- [ ] Stable publication uses npm Trusted Publishing/OIDC and provenance rather than a long-lived token.
+- [ ] The npm package trusts this repository's `.github/workflows/release.yml` with environment `npm`; stable publication uses OIDC and provenance rather than a long-lived token.

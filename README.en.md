@@ -1,12 +1,12 @@
 # dsh-mail-assistant
 
-> npm package: `@eduwork/dsh-mail@0.1.0-alpha.5`. The previous unscoped package remains available during migration. See [migration and data compatibility](docs/EDUWORK-MIGRATION.en.md).
+> npm package: `@eduwork/dsh-mail@0.1.0`. The previous unscoped package remains available during migration. See [migration and data compatibility](docs/EDUWORK-MIGRATION.en.md).
 
 [简体中文](README.md) | **English**
 
 A security-focused mail assistant plugin for [DeepSeek Harness (DSH)](https://github.com/deepseek-ai/deepseek-harness). It reads through standard IMAP and sends through standard SMTP, while deliberately refusing to become another full mail client.
 
-Current version: `0.1.0-alpha.5`. This is a public alpha preview for isolated environments and dedicated test mailboxes. Complete your own security and compliance review before connecting a critical mailbox.
+Current version: `0.1.0`. This release was reviewed against the public DeepSeek Harness `0.1.2-rc.1` interfaces. Complete your own security and compliance review before connecting a critical mailbox.
 
 ## Scope
 
@@ -37,12 +37,12 @@ See the complete [security model](docs/security-model.en.md).
 
 ## Install
 
-Prerequisites: Node.js 22+, DSH `0.1.2-alpha.2`, and a Profile with the official Settings, Credentials, Tools, Filesystem, Permission Presets, Approval, and Web Client capabilities.
+Prerequisites: Node.js 22+, DSH `0.1.2-rc.1`, and a Profile with the official Settings, Credentials, Tools, Filesystem, Permission Presets, Approval, and Web Client capabilities.
 
 For normal use, pin the reviewed exact npm version:
 
 ```bash
-dsh plugin --profile web add @eduwork/dsh-mail@0.1.0-alpha.5
+dsh plugin --profile web add @eduwork/dsh-mail@0.1.0
 ```
 
 Use a source checkout for auditing, development, or unpublished changes:
@@ -61,7 +61,7 @@ From the parent directory:
 dsh plugin --profile web add ./dsh-mail-assistant
 ```
 
-DSH links the checkout; it does not scan the invoking directory. Keep a source checkout in place. Use `@eduwork/dsh-mail@alpha` only when intentionally following prerelease updates.
+DSH links the checkout; it does not scan the invoking directory. Keep a source checkout in place. Team deployments should pin the reviewed exact version shown above.
 
 ## Configure and verify
 
@@ -73,7 +73,11 @@ The v0.1 authentication profile is username plus password/app password over stan
 
 The plugin uses official DSH seams: `ctx.credentials`, `ctx.settings`, `settings.section`, `ctx.tools`, `ctx.permissionPresets`, `tools/pre-execute`, `ctx.fs`, and the Client Loader. Ordinary permissions route sends through the composed Approval service; Full Access proceeds without a prompt. It does not fork the upstream Web client.
 
-DSH `0.1.2-alpha.2` has bounded binary reads but no binary-write filesystem seam. `mail_get_attachment` therefore uses `ctx.fs` to resolve and fence the local destination before an exclusive local write. A remote/non-local FS Provider may not support that one tool. See [compatibility](docs/compatibility.en.md).
+DSH `0.1.2-rc.1` has bounded binary reads but no binary-write filesystem seam. `mail_get_attachment` therefore uses `ctx.fs` to resolve and fence the local destination before an exclusive local write. A remote/non-local FS Provider may not support that one tool. See [compatibility](docs/compatibility.en.md).
+
+## Maintainer release
+
+The GitHub Actions `Release package` manual workflow checks, packs, and generates SHA-256 metadata by default. Publication runs only when a stable tag matching the manifest is selected and `publish` is explicitly enabled; a successful cross-platform CI run for the same commit is also required. Configure the npm Trusted Publisher for GitHub repository `freedomkk-qfeng/dsh-mail-assistant`, workflow file `release.yml`, and environment `npm`. The workflow uses no long-lived npm token.
 
 ## Documentation
 

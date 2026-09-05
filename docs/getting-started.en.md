@@ -5,7 +5,7 @@
 ## Requirements
 
 - Node.js 22+;
-- DeepSeek Harness `0.1.2-alpha.2`;
+- DeepSeek Harness `0.1.2-rc.1`;
 - a Profile with Settings, Credentials, Tools, Filesystem, Permission Presets, Approval, and Web Client;
 - an IMAP/SMTP-enabled mailbox and provider-issued app password.
 
@@ -14,7 +14,7 @@
 For normal use, pin the reviewed exact npm version:
 
 ```bash
-dsh plugin --profile web add @eduwork/dsh-mail@0.1.0-alpha.5
+dsh plugin --profile web add @eduwork/dsh-mail@0.1.0
 ```
 
 For auditing, development, or unpublished changes, use a source checkout:
@@ -27,7 +27,7 @@ npm run check
 dsh plugin --profile web add .
 ```
 
-Installation adds one Bundle to the Profile. Empty configuration is valid: the plugin performs no server probe or runtime installation during install, startup, or save. A source installation links the checkout into the Profile, so keep that directory available. Team deployments should pin an exact npm version; use `@eduwork/dsh-mail@alpha` only when intentionally following prereleases.
+Installation adds one Bundle to the Profile. Empty configuration is valid: the plugin performs no server probe or runtime installation during install, startup, or save. A source installation links the checkout into the Profile, so keep that directory available. Team deployments should pin the reviewed exact npm version.
 
 ## Configuration
 

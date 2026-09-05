@@ -3,6 +3,7 @@ lib/
 coverage/
 .tmp/
 *.tgz
+release-artifact/
 .DS_Store
 Thumbs.db
 .env

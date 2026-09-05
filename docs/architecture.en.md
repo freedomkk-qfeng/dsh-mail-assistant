@@ -58,7 +58,7 @@ Outbound attachments use `ctx.fs`: resolve from the session `cwd`, verify contai
 
 The Host artifact embeds the IMAP/SMTP implementation libraries in `lib/index.js`. Users do not install a second protocol runtime after npm, source-package, or offline-product installation, and plugin dependencies cannot collide with a product's private Node runtime during updates.
 
-DSH `0.1.2-alpha.2` does not expose `writeBytes`. Attachment download therefore requires a local Host filesystem. The plugin resolves the logical destination with `ctx.fs`, creates the directory, resolves real workspace and directory paths, rechecks containment to reject pre-existing symlinks or junctions, and finally performs a random-name `wx` exclusive write. Replace this local adapter when DSH provides an official binary-write seam.
+DSH `0.1.2-rc.1` does not expose `writeBytes`. Attachment download therefore requires a local Host filesystem. The plugin resolves the logical destination with `ctx.fs`, creates the directory, resolves real workspace and directory paths, rechecks containment to reject pre-existing symlinks or junctions, and finally performs a random-name `wx` exclusive write. Replace this local adapter when DSH provides an official binary-write seam.
 
 ## Extension rules
 

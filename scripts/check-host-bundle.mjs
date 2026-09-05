@@ -9,7 +9,7 @@ if (publishedRuntimeDependencies.length > 0) {
 }
 
 const source = await readFile(new URL('../lib/index.js', import.meta.url), 'utf8')
-for (const specifier of ['imapflow', 'mailparser', 'nodemailer', 'schemastery']) {
+for (const specifier of ['imapflow', 'mailparser', 'nodemailer', 'schemastery', '@deepseek-ai/schemastery']) {
   const bareImport = new RegExp(`(?:from\\s*|import\\s*\\()(['\"])${specifier}(?:/[^'\"]*)?\\1`)
   if (bareImport.test(source)) {
     throw new Error(`Host bundle still depends on external runtime package: ${specifier}`)

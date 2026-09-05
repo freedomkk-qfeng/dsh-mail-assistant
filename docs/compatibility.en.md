@@ -2,11 +2,11 @@
 
 [简体中文](compatibility.md) | **English**
 
-Package `@eduwork/dsh-mail@0.1.0-alpha.5` retains the alpha.4 runtime and settings contracts. See [migration](EDUWORK-MIGRATION.en.md).
+Package `@eduwork/dsh-mail@0.1.0` retains the published preview runtime and settings contracts. See [migration](EDUWORK-MIGRATION.en.md).
 
 ## Reviewed baseline
 
-- DeepSeek Harness `0.1.2-alpha.2`;
+- DeepSeek Harness `0.1.2-rc.1` (source-review baseline commit `a66e4702047846cdaa10c66c9d3df3951f5ea70d`);
 - Node.js 22+;
 - dynamic Web Client Bundle;
 - local Host filesystem;
@@ -24,7 +24,7 @@ The DSH Profile provides `settings`, `credentials`, `tools`, `permissionPresets`
 
 ## DSH binary-write limitation
 
-DSH `0.1.2-alpha.2` exposes `ctx.fs.readBytes` but no `writeBytes`:
+DSH `0.1.2-rc.1` exposes `ctx.fs.readBytes` but no `writeBytes`:
 
 - outbound local attachments use the official seam end to end;
 - downloads require `ctx.fs.processPath()` and the Host Node process to share one filesystem;
@@ -34,4 +34,4 @@ DSH `0.1.2-alpha.2` exposes `ctx.fs.readBytes` but no `writeBytes`:
 
 ## Version policy
 
-During `0.x`, a DSH alpha may change the Client Loader, settings slots, or tool schemas. For every upgrade, run the full automated suite and real IMAP/SMTP acceptance in an isolated Profile. Compilation alone is insufficient.
+During `0.x`, a DSH prerelease may change the Client Loader, settings slots, or tool schemas. For every upgrade, run the full automated suite and IMAP/SMTP acceptance in an isolated Profile. Compilation alone is insufficient.
