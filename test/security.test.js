@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { lstat, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { lstat, mkdir, mkdtemp, readFile, realpath, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import test from 'node:test'
@@ -89,7 +89,8 @@ test('workspace attachment I/O accepts bounded files and rejects boundary escape
   await assert.rejects(readWorkspaceAttachments(ctx, ['.'], exec, 32), /not a regular file/)
 
   const destination = await writeWorkspaceAttachment(ctx, { filename: '../reply.txt', bytes: Buffer.from('reply') }, exec)
-  assert.equal(workspaceInternals.within(join(workspace, '.dsh-mail-assistant', 'attachments'), destination), true)
+  const attachmentRoot = await realpath(join(workspace, '.dsh-mail-assistant', 'attachments'))
+  assert.equal(workspaceInternals.within(attachmentRoot, destination), true)
   assert.equal(await readFile(destination, 'utf8'), 'reply')
 })
 
